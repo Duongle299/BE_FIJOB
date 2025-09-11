@@ -2,64 +2,35 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\ThemmoibaivietRequest;
 use App\Models\Baiviet;
 use Illuminate\Http\Request;
 
 class BaivietController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
-    {
-        //
+    public function getbaiviet(){
+        $data = Baiviet::join('danhmucs','baiviets.ma_danh_muc','danhmucs.ma_danh_muc')
+        ->select('danhmucs.ten_danh_muc','baiviets.tieu_de','baiviets.noi_dung','baiviets.hinh_anh','baiviets.ngay_dang')
+        ->get();
+        return response()->json([
+            'data' => $data
+        ]);
     }
+    public function createbaiviet(ThemmoibaivietRequest $request){
+        $data = $request->all();
+        Baiviet::create([
+            
+        ]);
+        return response()->json([
+            'message' => 'Thêm mới bài viết thành công',
+            'data' => $data
+        ],201);
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
     }
+    public function updatebaiviet(Request $request,$id){
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
     }
+    public function deletebaiviet($id){
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Baiviet $baiviet)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Baiviet $baiviet)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, Baiviet $baiviet)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Baiviet $baiviet)
-    {
-        //
     }
 }
