@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\CapnhatbaivietRequest;
 use App\Http\Requests\ThemmoibaivietRequest;
 use App\Models\Baiviet;
 use Illuminate\Http\Request;
@@ -17,18 +18,34 @@ class BaivietController extends Controller
         ]);
     }
     public function createbaiviet(ThemmoibaivietRequest $request){
-        $data = $request->all();
         Baiviet::create([
-            
+                'ma_bai_viet'   => $request->ma_bai_viet,
+                'ma_danh_muc'   => $request->ma_danh_muc,
+                'tieu_de'       => $request->tieu_de,
+                'noi_dung'      => $request->noi_dung,
+                'hinh_anh'      => $request->hinh_anh,
+                'ngay_dang'     => $request->ngay_dang,
+                'trang_thai'    => '0',
         ]);
         return response()->json([
+            'status' => true,
             'message' => 'Thêm mới bài viết thành công',
-            'data' => $data
-        ],201);
+        ]);
 
     }
-    public function updatebaiviet(Request $request,$id){
-
+    public function updatebaiviet(CapnhatbaivietRequest $request){
+            Baiviet::find($request->ma_bai_viet)->update([
+                'ma_danh_muc'   => $request->ma_danh_muc,
+                'tieu_de'       => $request->tieu_de,
+                'noi_dung'      => $request->noi_dung,
+                'hinh_anh'      => $request->hinh_anh,
+                'ngay_dang'     => $request->ngay_dang,
+                'trang_thai'    => '0',
+        ]);
+        return response()->json([
+            'status' => true,
+            'message' => 'cập nhật bài viết thành công',
+        ]);
     }
     public function deletebaiviet($id){
 

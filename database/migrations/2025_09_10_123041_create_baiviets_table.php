@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string("ma_bai_viet", 10)->unique();
             $table->string("ma_danh_muc", 10);
             $table->string("tieu_de");
-            $table->string("noi_dung");
+            $table->text("noi_dung");
             $table->string("hinh_anh");
             $table->dateTime("ngay_dang");
             $table->string("trang_thai");
