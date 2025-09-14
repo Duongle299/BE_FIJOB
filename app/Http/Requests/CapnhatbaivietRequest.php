@@ -19,7 +19,7 @@ class CapnhatbaivietRequest extends FormRequest
         return [
             'ma_bai_viet'   => 'required|exists:baiviets,ma_bai_viet|max:10',
             'ma_danh_muc'   => 'required|exists:danhmucs,ma_danh_muc',
-            'tieu_de'       => 'required|unique:baiviets,tieu_de,'.$this->ma_bai_viet.',ma_bai_viet|max:255',
+            'tieu_de'       => 'required|max:255',
             'noi_dung'      => 'required',
             'hinh_anh'      => 'required|url',
             'ngay_dang'     => 'required|date',
@@ -34,7 +34,6 @@ class CapnhatbaivietRequest extends FormRequest
             'ma_danh_muc.required'   => 'Mã danh mục là bắt buộc.',
             'ma_danh_muc.exists'     => 'Mã danh mục không hợp lệ.',
             'tieu_de.required'       => 'Tiêu đề là bắt buộc.',
-            'tieu_de.unique'         => 'Tiêu đề đã tồn tại.',
             'tieu_de.max'            => 'Tiêu đề không được vượt quá 255 ký tự.',
             'noi_dung.required'      => 'Nội dung là bắt buộc.',
             'hinh_anh.required'      => 'Hình ảnh là bắt buộc.',
