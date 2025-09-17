@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AdminController;
 use App\Http\Controllers\BaivietController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -10,6 +11,10 @@ Route::get('/user', function (Request $request) {
 
 
 // API Admin
+Route::post('admin/dang_nhap',[AdminController::class,'login']);
+Route::get('admin/check-token',[AdminController::class,'checktoken']);
+
+
 Route::get('admin/get_bai_viet',[BaivietController::class,'getbaiviet']);
 Route::post('admin/create_bai_viet',[BaivietController::class,'createbaiviet']);
 Route::post('admin/update_bai_viet',[BaivietController::class,'updatebaiviet']);
