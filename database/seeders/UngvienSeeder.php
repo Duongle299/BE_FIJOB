@@ -15,13 +15,12 @@ class UngvienSeeder extends Seeder
         DB::table('ungviens')->truncate();
         DB::table('ungviens')->insert([
             [
-                'ma_ung_vien' => 'UV001',
                 'ten_ung_vien' => 'Nguyen Van A',
                 'ngay_sinh' => '1990-01-01',
                 'gioi_tinh' => 'Nam',
                 'so_dien_thoai' => '0123456789',
                 'dia_chi' => 'Ha Noi',
-                'ma_nguoi_dung' => 'ND002',
+                'ma_nguoi_dung' => '2',
             ],
         ]);
     }

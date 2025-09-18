@@ -11,7 +11,7 @@ class AdminController extends Controller
 {
     public function login(Request $request)
     {
-        $check = Admin::join('nguoidungs', 'admins.ma_nguoi_dung', '=', 'nguoidungs.ma_nguoi_dung')
+        $check = Admin::join('nguoidungs', 'admins.id_nguoi_dung', '=', 'nguoidungs.id')
             ->where('nguoidungs.email', $request->email)
             ->where('nguoidungs.mat_khau', $request->mat_khau)
             ->first();
@@ -42,5 +42,13 @@ class AdminController extends Controller
                 'message'   => 'Bạn cần đăng nhập hệ thống!'
             ]);
         }
+    }
+    public function getdataungvien(){
+        $data = Nguoidung::join('ungviens','nguoidungs.id','ungviens.ma_nguoi_dung')
+                        ->select('ungviens.id','ungviens.ten_ung_vien','nguoidungs.email','ungviens.so_dien_thoai','ungviens.gioi_tinh','ungviens.ngay_sinh','ungviens.dia_chi','nguoidungs.avatar','nguoidungs.trang_thai')
+                        ->get();
+        return response()->json([
+            'data' => $data
+        ]);
     }
 }

@@ -13,7 +13,6 @@ class Nguoidung extends Authenticatable
     use Notifiable, HasApiTokens, HasFactory;
     protected $table = 'nguoidungs';
     protected $fillable = [
-        'ma_nguoi_dung',
         'email',
         'mat_khau',
         'avatar',

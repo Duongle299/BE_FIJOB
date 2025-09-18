@@ -14,10 +14,9 @@ class AdminSeeder extends Seeder
         DB::table('admins')->truncate();
         DB::table('admins')->insert([
             [
-                'ma_admin' => 'AD001',
                 'ten_admin' => 'Admin A',
-                'ma_chuc_vu' => 'CV001',
-                'ma_nguoi_dung' => 'ND001',
+                'id_chuc_vu' => 'CV001',
+                'id_nguoi_dung' => '1',
             ],
         ]);
     }

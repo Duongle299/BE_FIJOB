@@ -13,10 +13,9 @@ return new class extends Migration
     {
         Schema::create('admins', function (Blueprint $table) {
             $table->id();
-            $table->string('ma_admin',10)->unique();
             $table->string('ten_admin',100);
-            $table->string('ma_chuc_vu',10);
-            $table->string('ma_nguoi_dung',10);
+            $table->string('id_chuc_vu',10);
+            $table->string('id_nguoi_dung',10);
             $table->timestamps();
         });
     }

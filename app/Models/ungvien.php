@@ -8,7 +8,6 @@ class ungvien extends Model
 {
     protected $table = 'ungviens';
     protected $fillable = [
-        'ma_ung_vien',
         'ten_ung_vien',
         'ngay_sinh',
         'gioi_tinh',

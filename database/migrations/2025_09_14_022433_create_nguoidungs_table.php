@@ -13,7 +13,6 @@ return new class extends Migration
     {
         Schema::create('nguoidungs', function (Blueprint $table) {
             $table->id();
-            $table->string('ma_nguoi_dung',10)->unique();
             $table->string('email',100)->unique();
             $table->string('mat_khau',100);
             $table->text('avatar')->nullable();
