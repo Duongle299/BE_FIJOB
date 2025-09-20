@@ -11,10 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('nguoidungs', function (Blueprint $table) {
-            $table->id();
-            $table->string('ten_nguoi_dung');
-            $table->timestamps();
+        Schema::table('nhatuyendungs', function (Blueprint $table) {
+            //
         });
     }
 
@@ -23,6 +21,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('nguoidungs');
+        Schema::table('nhatuyendungs', function (Blueprint $table) {
+            //
+        });
     }
 };

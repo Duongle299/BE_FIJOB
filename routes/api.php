@@ -16,6 +16,7 @@ Route::post('admin/dang_nhap',[AdminController::class,'login']);
 Route::get('admin/check-token',[AdminController::class,'checktoken']);
 
 Route::get('admin/ung_vien',[AdminController::class,'getdataungvien']);
+Route::get('admin/nha_tuyen_dung',[AdminController::class,'getdatanhatuyendung']);
 
 
 Route::get('admin/get_bai_viet',[BaivietController::class,'getbaiviet']);

@@ -25,7 +25,7 @@ class BaituyendungSeeder extends Seeder
                 'trang_thai' => 1,
                 'ngay_dang' => '2024-10-01',
                 'han_nop' => '2024-10-31',
-                'ma_nha_tuyen_dung' => 'NTD001',
+                'ma_nha_tuyen_dung' => '1',
                 'ma_linh_vuc' => 'LV001'
             ],
         ]);

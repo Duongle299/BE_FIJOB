@@ -6,10 +6,12 @@ use App\Http\Requests\CapnhatbaivietRequest;
 use App\Http\Requests\ThemmoibaivietRequest;
 use App\Models\Baiviet;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class BaivietController extends Controller
 {
     public function getbaiviet(){
+
         $data = Baiviet::join('danhmucs','baiviets.ma_danh_muc','danhmucs.ma_danh_muc')
         ->select('baiviets.ma_bai_viet','baiviets.ma_danh_muc','danhmucs.ten_danh_muc','baiviets.tieu_de','baiviets.noi_dung','baiviets.hinh_anh','baiviets.ngay_dang')
         ->get();
@@ -18,6 +20,7 @@ class BaivietController extends Controller
         ]);
     }
     public function createbaiviet(ThemmoibaivietRequest $request){
+        $user_login = Auth::guard('sanctum')->user();
         Baiviet::create([
                 'ma_bai_viet'   => $request->ma_bai_viet,
                 'ma_danh_muc'   => $request->ma_danh_muc,
@@ -34,6 +37,7 @@ class BaivietController extends Controller
 
     }
         public function updatebaiviet(CapnhatbaivietRequest $request){
+        $user_login = Auth::guard('sanctum')->user();
             Baiviet::where('ma_bai_viet', $request->ma_bai_viet)->update([
                 'ma_danh_muc'   => $request->ma_danh_muc,
                 'tieu_de'       => $request->tieu_de,
@@ -48,6 +52,7 @@ class BaivietController extends Controller
         ]);
     }
     public function deletebaiviet(Request $request){
+        $user_login = Auth::guard('sanctum')->user();
         Baiviet::where('ma_bai_viet',$request->ma_bai_viet)->delete();
         return response()->json([
             'status' => true,

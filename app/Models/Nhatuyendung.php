@@ -4,19 +4,20 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class ungvien extends Model
+class Nhatuyendung extends Model
 {
-    protected $table = 'ungviens';
+    protected $table = 'nhatuyendungs';
     protected $fillable = [
-        'ten_ung_vien',
+        'ten_cong_ty',
         'email',
         'mat_khau',
         'avatar',
-        'ngay_sinh',
-        'gioi_tinh',
         'so_dien_thoai',
         'dia_chi',
-        'ma_nguoi_dung',
+        'linh_vuc',
+        'mo_ta',
+        'website',
+        'id_nguoi_dung',
         'trang_thai'
     ];
 }

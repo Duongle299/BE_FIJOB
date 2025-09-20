@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Admin;
 use App\Models\Nguoidung;
+use App\Models\Nhatuyendung;
+use App\Models\ungvien;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -11,9 +13,8 @@ class AdminController extends Controller
 {
     public function login(Request $request)
     {
-        $check = Admin::join('nguoidungs', 'admins.id_nguoi_dung', '=', 'nguoidungs.id')
-            ->where('nguoidungs.email', $request->email)
-            ->where('nguoidungs.mat_khau', $request->mat_khau)
+        $check = Admin::where('email', $request->email)
+            ->where('mat_khau', $request->mat_khau)
             ->first();
 
         if (!$check) {
@@ -44,9 +45,16 @@ class AdminController extends Controller
         }
     }
     public function getdataungvien(){
-        $data = Nguoidung::join('ungviens','nguoidungs.id','ungviens.ma_nguoi_dung')
-                        ->select('ungviens.id','ungviens.ten_ung_vien','nguoidungs.email','ungviens.so_dien_thoai','ungviens.gioi_tinh','ungviens.ngay_sinh','ungviens.dia_chi','nguoidungs.avatar','nguoidungs.trang_thai')
-                        ->get();
+        $data = ungvien::all();
+        return response()->json([
+            'data' => $data
+        ]);
+    }
+    public function getdatanhatuyendung(){
+        $data = Nhatuyendung::join('baituyendungs','nhatuyendungs.id','baituyendungs.ma_nha_tuyen_dung')
+                            ->join('linhvucs','linhvucs.ma_linh_vuc','baituyendungs.ma_linh_vuc')
+                            ->select('nhatuyendungs.*','linhvucs.ten_linh_vuc')
+                            ->get();
         return response()->json([
             'data' => $data
         ]);
