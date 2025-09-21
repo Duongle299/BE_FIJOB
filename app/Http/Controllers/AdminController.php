@@ -8,6 +8,7 @@ use App\Models\Nhatuyendung;
 use App\Models\ungvien;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Laravel\Sanctum\Guard;
 
 class AdminController extends Controller
 {
@@ -58,5 +59,53 @@ class AdminController extends Controller
         return response()->json([
             'data' => $data
         ]);
+    }
+    public function khoaTaikhoanungvien(Request $request)
+    {
+        $user_login = Auth::guard('sanctum')->user();
+        if(!$user_login || !$user_login->id){
+            return response()->json([
+                'status'    => false,
+                'message'   => 'cần đăng nhập để để khóa tài khoản'
+            ]);
+        }
+        $data = ungvien::find($request->id);
+        if(!$data){
+                return response()->json([
+                'status'    => false,
+                'message'   => 'không tìm thấy ứng viên'
+            ]);
+        }
+        $data->trang_thai = $data->trang_thai == 1 ? 0 : 1;
+        $data->save();
+         return response()->json([
+                'status'    => true,
+                'message'   => 'khóa tài khoản thành công'
+            ]);
+
+    }
+    public function khoaTaikhoannhatuyendung(Request $request)
+    {
+        $user_login = Auth::guard('sanctum')->user();
+        if(!$user_login || !$user_login->id){
+            return response()->json([
+                'status'    => false,
+                'message'   => 'cần đăng nhập để để khóa tài khoản'
+            ]);
+        }
+        $data = Nhatuyendung::find($request->id);
+        if(!$data){
+                return response()->json([
+                'status'    => false,
+                'message'   => 'không tìm thấy nhà tuyển dụng'
+            ]);
+        }
+        $data->trang_thai = $data->trang_thai == 1 ? 0 : 1;
+        $data->save();
+         return response()->json([
+                'status'    => true,
+                'message'   => 'khóa tài khoản thành công'
+            ]);
+
     }
 }

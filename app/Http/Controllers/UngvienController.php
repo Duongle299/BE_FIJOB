@@ -13,26 +13,26 @@ class UngvienController extends Controller
     {
         if($request->ma_nguoi_dung == 2){
                 ungvien::create([
-                        'ten_nguoi_dung'  => $request->ten_ung_vien,
+                        'ten_ung_vien'  => $request->ten_ung_vien,
                         'email'         => $request->email,
                         'mat_khau'      => $request->mat_khau,
                         'ma_nguoi_dung'       => $request->ma_nguoi_dung,
                     ]);
                     return response()->json([
-                        'status' => true,
+                        'status' => 1,
                         'message' => 'Đăng ký tài khoản ứng viên thành công'
                     ]);
         }else
             if( $request->id_nguoi_dung == 3){
                 Nhatuyendung::create([
-                        'ten_nguoi_dung'  => $request->ten_cong_ty,
+                        'ten_cong_ty'  => $request->ten_cong_ty,
                         'email'         => $request->email,
                         'mat_khau'      => $request->mat_khau,
-                        'ma_nguoi_dung'       => $request->id_nguoi_dung,
+                        'id_nguoi_dung'       => $request->id_nguoi_dung,
                     ]);
                     return response()->json([
-                        'status' => true,
-                        'message' => 'Đăng ký tài khoản nhà tuyển dụng thành công'
+                        'status' => 2,
+                        'message_2' => 'Đăng ký tài khoản nhà tuyển dụng thành công'
                     ]);
             }
     }

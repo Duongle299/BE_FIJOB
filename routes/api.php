@@ -17,6 +17,10 @@ Route::get('admin/check-token',[AdminController::class,'checktoken']);
 
 Route::get('admin/ung_vien',[AdminController::class,'getdataungvien']);
 Route::get('admin/nha_tuyen_dung',[AdminController::class,'getdatanhatuyendung']);
+Route::post('admin/ung_vien/khoa',[AdminController::class,'khoaTaikhoanungvien'])->middleware('checkadmin');
+Route::post('admin/nha_tuyen_dung/khoa',[AdminController::class,'khoaTaikhoannhatuyendung'])->middleware('checkadmin');
+
+
 
 
 Route::get('admin/get_bai_viet',[BaivietController::class,'getbaiviet']);
