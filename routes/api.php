@@ -32,3 +32,12 @@ Route::post('admin/delete_bai_viet',[BaivietController::class,'deletebaiviet']);
 
 // API ung vien
 Route::post('ung_vien/signup',[UngvienController::class,'signup']);
+Route::post('ung_vien/login',[UngvienController::class,'login']);
+Route::get('ung_vien/check-token',[UngvienController::class,'checkToken']);
+
+Route::get('ung_vien/profile',[UngvienController::class,'profile'])->middleware('checkclient');
+Route::post('ung_vien/update_profile',[UngvienController::class,'upprofile'])->middleware('checkclient');
+
+
+
+

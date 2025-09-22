@@ -36,7 +36,8 @@ class AdminController extends Controller
         if($user_login) {
             return response()->json([
                 'status'    => 1,
-                'ho_ten'    => $user_login->ten_admin
+                'ho_ten'    => $user_login->ten_admin,
+                'avatar'    => $user_login->avatar
             ]);
         } else {
             return response()->json([
