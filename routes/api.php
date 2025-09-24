@@ -37,6 +37,11 @@ Route::get('ung_vien/check-token',[UngvienController::class,'checkToken']);
 
 Route::get('ung_vien/profile',[UngvienController::class,'profile'])->middleware('checkclient');
 Route::post('ung_vien/update_profile',[UngvienController::class,'upprofile'])->middleware('checkclient');
+Route::post('ung_vien/update_matkhau',[UngvienController::class,'uppassword'])->middleware('checkclient');
+
+Route::get('ung_vien/get_tin_tuyen_dung',[UngvienController::class,'getTinTuyenDung']);
+
+
 
 
 

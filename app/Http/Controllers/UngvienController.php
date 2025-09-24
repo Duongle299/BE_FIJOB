@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\LoginRequest;
+use App\Models\Baituyendung;
 use App\Models\Nguoidung;
 use App\Models\Nhatuyendung;
 use App\Models\ungvien;
@@ -10,7 +12,7 @@ use Illuminate\Support\Facades\Auth;
 
 class UngvienController extends Controller
 {
-    public function login(Request $request)
+    public function login(LoginRequest $request)
     {
         $check = ungvien::where('email', $request->email)
             ->where('mat_khau', $request->mat_khau)
@@ -111,6 +113,39 @@ class UngvienController extends Controller
                 'message'   => 'thông tin tài khoản không tồn tại'
             ]);
         }
+    }
+    public function uppassword(Request $request)
+    {
+        $user = Auth::guard('sanctum')->user();
+        $data = ungvien::where('id' , $user->id)
+                        ->where('mat_khau' , $request->old_mat_khau)
+                        ->first();
+        if($data){
+            $data->update([
+                'mat_khau' => $request->mat_khau,
+            ]);
+            return response()->json([
+                'status' => 1,
+                'message'   => 'Đổi mật khẩu thành công'
+            ]);
+        }else{
+            return response()->json([
+                'status' => 0,
+                'message'   => 'Mật khẩu cũ không đúng'
+            ]);
+        }
+    }
+    public function getTinTuyenDung()
+    {
+        // $user = Auth::guard('sanctum')->user();
+        $data = Baituyendung::join('nhatuyendungs','baituyendungs.ma_nha_tuyen_dung','nhatuyendungs.id')
+                            ->select('baituyendungs.*','nhatuyendungs.ten_cong_ty')
+                            ->get();
+        return response()->json([
+                'status' => true,
+                'data'   => $data
+            ]);
+
     }
 
 }
