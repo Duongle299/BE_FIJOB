@@ -53,10 +53,11 @@ class AdminController extends Controller
         ]);
     }
     public function getdatanhatuyendung(){
-        $data = Nhatuyendung::join('baituyendungs','nhatuyendungs.id','baituyendungs.ma_nha_tuyen_dung')
-                            ->join('linhvucs','linhvucs.ma_linh_vuc','baituyendungs.ma_linh_vuc')
-                            ->select('nhatuyendungs.*','linhvucs.ten_linh_vuc')
-                            ->get();
+        // $data = Nhatuyendung::join('baituyendungs','nhatuyendungs.id','baituyendungs.ma_nha_tuyen_dung')
+        //                     ->join('linhvucs','linhvucs.ma_linh_vuc','baituyendungs.ma_linh_vuc')
+        //                     ->select('nhatuyendungs.*','linhvucs.ten_linh_vuc')
+        //                     ->get();
+        $data = Nhatuyendung::all();
         return response()->json([
             'data' => $data
         ]);
