@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\BaivietController;
+use App\Http\Controllers\NhatuyendungController;
 use App\Http\Controllers\UngvienController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -41,6 +42,14 @@ Route::post('ung_vien/update_matkhau',[UngvienController::class,'uppassword'])->
 
 Route::get('ung_vien/get_tin_tuyen_dung',[UngvienController::class,'getTinTuyenDung']);
 
+
+// API nhà tuyển dụng
+Route::post('nha_tuyen_dung/signup',[NhatuyendungController::class,'signup']);
+Route::post('nha_tuyen_dung/login',[NhatuyendungController::class,'login']);
+Route::get('nha_tuyen_dung/check-token',[NhatuyendungController::class,'checkToken']);
+
+Route::get('nha_tuyen_dung/profile',[NhatuyendungController::class,'profile'])->middleware('checkemployer');
+Route::post('nha_tuyen_dung/update_profile',[NhatuyendungController::class,'upprofile'])->middleware('checkemployer');
 
 
 
