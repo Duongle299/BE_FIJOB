@@ -21,6 +21,7 @@ Route::get('admin/nha_tuyen_dung',[AdminController::class,'getdatanhatuyendung']
 Route::post('admin/ung_vien/khoa',[AdminController::class,'khoaTaikhoanungvien'])->middleware('checkadmin');
 Route::post('admin/nha_tuyen_dung/khoa',[AdminController::class,'khoaTaikhoannhatuyendung'])->middleware('checkadmin');
 
+Route::get('admin/profile',[AdminController::class,'profile'])->middleware('checkadmin');
 
 
 
@@ -50,6 +51,13 @@ Route::get('nha_tuyen_dung/check-token',[NhatuyendungController::class,'checkTok
 
 Route::get('nha_tuyen_dung/profile',[NhatuyendungController::class,'profile'])->middleware('checkemployer');
 Route::post('nha_tuyen_dung/update_profile',[NhatuyendungController::class,'upprofile'])->middleware('checkemployer');
+Route::post('nha_tuyen_dung/update_matkhau',[NhatuyendungController::class,'uppassword'])->middleware('checkclient');
+
+Route::get('nha_tuyen_dung/get-bai-tuyen-dung',[NhatuyendungController::class,'getbaituyendung'])->middleware('checkemployer');
+Route::post('nha_tuyen_dung/create-bai-tuyen-dung',[NhatuyendungController::class,'createbaituyendung'])->middleware('checkemployer');
+Route::post('nha_tuyen_dung/update-bai-tuyen-dung',[NhatuyendungController::class,'updatebaituyendung'])->middleware('checkemployer');
+Route::post('nha_tuyen_dung/delete-bai-tuyen-dung',[NhatuyendungController::class,'deletebaituyendung'])->middleware('checkemployer');
+
 
 
 

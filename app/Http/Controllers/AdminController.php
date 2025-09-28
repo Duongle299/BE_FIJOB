@@ -110,4 +110,23 @@ class AdminController extends Controller
             ]);
 
     }
+    public function profile()
+    {
+        $user_login = Auth::guard('sanctum')->user();
+        if($user_login){
+            $admin = Admin::where('admins.id', $user_login->id)
+                          ->join('chucvus','admins.id_chuc_vu','chucvus.ma_chuc_vu')
+                          ->select('admins.*','chucvus.ten_chuc_vu')
+                          ->first();
+            return response()->json([
+                'status' => true,
+                'data'   => $admin
+            ]);
+        }else{
+            return response()->json([
+                'status' => false,
+                'message'   => 'bạn cần đăng nhập tài khoản'
+            ]);
+        }
+    }
 }
