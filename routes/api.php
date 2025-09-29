@@ -15,6 +15,8 @@ Route::get('/user', function (Request $request) {
 // API Admin
 Route::post('admin/dang_nhap',[AdminController::class,'login']);
 Route::get('admin/check-token',[AdminController::class,'checktoken']);
+Route::get('admin/logout',[AdminController::class,'logout']);
+
 
 Route::get('admin/ung_vien',[AdminController::class,'getdataungvien']);
 Route::get('admin/nha_tuyen_dung',[AdminController::class,'getdatanhatuyendung']);
@@ -22,7 +24,8 @@ Route::post('admin/ung_vien/khoa',[AdminController::class,'khoaTaikhoanungvien']
 Route::post('admin/nha_tuyen_dung/khoa',[AdminController::class,'khoaTaikhoannhatuyendung'])->middleware('checkadmin');
 
 Route::get('admin/profile',[AdminController::class,'profile'])->middleware('checkadmin');
-
+Route::post('admin/update_profile',[AdminController::class,'upprofile'])->middleware('checkadmin');
+Route::post('admin/update_matkhau',[AdminController::class,'uppassword'])->middleware('checkadmin');
 
 
 Route::get('admin/get_bai_viet',[BaivietController::class,'getbaiviet']);
@@ -30,12 +33,16 @@ Route::post('admin/create_bai_viet',[BaivietController::class,'createbaiviet']);
 Route::post('admin/update_bai_viet',[BaivietController::class,'updatebaiviet']);
 Route::post('admin/delete_bai_viet',[BaivietController::class,'deletebaiviet']);
 
+Route::get('admin/get-bai-tuyen-dung',[AdminController::class,'getTinTuyenDung'])->middleware('checkadmin');
+Route::post('admin/duyet-tin-tuyen-dung',[AdminController::class,'duyetTinTuyenDung'])->middleware('checkadmin');
+Route::post('admin/Reject-tin-tuyen-dung',[AdminController::class,'RejectTinTuyenDung'])->middleware('checkadmin');
 
 
 // API ung vien
 Route::post('ung_vien/signup',[UngvienController::class,'signup']);
 Route::post('ung_vien/login',[UngvienController::class,'login']);
 Route::get('ung_vien/check-token',[UngvienController::class,'checkToken']);
+Route::get('ung_vien/logout',[UngvienController::class,'logout']);
 
 Route::get('ung_vien/profile',[UngvienController::class,'profile'])->middleware('checkclient');
 Route::post('ung_vien/update_profile',[UngvienController::class,'upprofile'])->middleware('checkclient');
@@ -48,6 +55,8 @@ Route::get('ung_vien/get_tin_tuyen_dung',[UngvienController::class,'getTinTuyenD
 Route::post('nha_tuyen_dung/signup',[NhatuyendungController::class,'signup']);
 Route::post('nha_tuyen_dung/login',[NhatuyendungController::class,'login']);
 Route::get('nha_tuyen_dung/check-token',[NhatuyendungController::class,'checkToken']);
+Route::get('nha_tuyen_dung/logout',[NhatuyendungController::class,'logout']);
+
 
 Route::get('nha_tuyen_dung/profile',[NhatuyendungController::class,'profile'])->middleware('checkemployer');
 Route::post('nha_tuyen_dung/update_profile',[NhatuyendungController::class,'upprofile'])->middleware('checkemployer');

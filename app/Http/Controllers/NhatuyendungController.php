@@ -6,9 +6,29 @@ use App\Models\Baituyendung;
 use App\Models\Nhatuyendung;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class NhatuyendungController extends Controller
 {
+    public function logout()
+    {
+        $user = Auth::guard('sanctum')->user();
+        if ($user) {
+            DB::table('personal_access_tokens')
+                ->where('id', $user->currentAccessToken()->id)
+                ->delete();
+            return response()->json([
+                'status'  => 1,
+                'message' => "Đăng xuất thành công",
+            ]);
+        } else {
+            return response()->json([
+                'status'  => 0,
+                'message' => "Có lỗi xảy ra",
+            ]);
+        }
+    }
     public function login(Request $request)
     {
          $check = Nhatuyendung::where('email', $request->email)

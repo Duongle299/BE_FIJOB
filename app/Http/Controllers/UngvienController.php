@@ -9,9 +9,28 @@ use App\Models\Nhatuyendung;
 use App\Models\ungvien;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class UngvienController extends Controller
 {
+    public function logout()
+    {
+        $user = Auth::guard('sanctum')->user();
+        if ($user) {
+            DB::table('personal_access_tokens')
+                ->where('id', $user->currentAccessToken()->id)
+                ->delete();
+            return response()->json([
+                'status'  => 1,
+                'message' => "Đăng xuất thành công",
+            ]);
+        } else {
+            return response()->json([
+                'status'  => 0,
+                'message' => "Có lỗi xảy ra",
+            ]);
+        }
+    }
     public function login(LoginRequest $request)
     {
         $check = ungvien::where('email', $request->email)
@@ -137,9 +156,10 @@ class UngvienController extends Controller
     }
     public function getTinTuyenDung()
     {
-        // $user = Auth::guard('sanctum')->user();
+        $user = Auth::guard('sanctum')->user();
         $data = Baituyendung::join('nhatuyendungs','baituyendungs.ma_nha_tuyen_dung','nhatuyendungs.id')
                             ->select('baituyendungs.*','nhatuyendungs.ten_cong_ty')
+                            ->where('baituyendungs.trang_thai',1)
                             ->get();
         return response()->json([
                 'status' => true,
