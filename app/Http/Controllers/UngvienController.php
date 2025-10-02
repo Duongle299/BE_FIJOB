@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\LoginRequest;
 use App\Models\Baituyendung;
+use App\Models\Linhvuc;
 use App\Models\Nguoidung;
 use App\Models\Nhatuyendung;
 use App\Models\ungvien;
@@ -158,9 +159,53 @@ class UngvienController extends Controller
     {
         $user = Auth::guard('sanctum')->user();
         $data = Baituyendung::join('nhatuyendungs','baituyendungs.ma_nha_tuyen_dung','nhatuyendungs.id')
-                            ->select('baituyendungs.*','nhatuyendungs.ten_cong_ty')
+                            ->join('linhvucs','baituyendungs.ma_linh_vuc','linhvucs.id')
+                            ->select('baituyendungs.*','nhatuyendungs.ten_cong_ty','linhvucs.ten_linh_vuc')
                             ->where('baituyendungs.trang_thai',1)
                             ->get();
+        return response()->json([
+                'status' => true,
+                'data'   => $data
+            ]);
+
+    }
+    public function gettrangchu()
+    {
+        $user = Auth::guard('sanctum')->user();
+        $data = Baituyendung::join('nhatuyendungs','baituyendungs.ma_nha_tuyen_dung','nhatuyendungs.id')
+                            ->join('linhvucs','baituyendungs.ma_linh_vuc','linhvucs.id')
+                            ->select('baituyendungs.*','nhatuyendungs.ten_cong_ty','linhvucs.ten_linh_vuc')
+                            ->orderBy('created_at', 'desc')
+                            ->where('baituyendungs.trang_thai',1)
+                            ->take(3)
+                            ->get();
+        return response()->json([
+                'status' => true,
+                'data'   => $data
+            ]);
+
+    }
+    public function demtintuyendung()
+    {
+        $user = Auth::guard('sanctum')->user();
+        $data = Baituyendung::join('nhatuyendungs','baituyendungs.ma_nha_tuyen_dung','nhatuyendungs.id')
+                            ->select('nhatuyendungs.ten_cong_ty','nhatuyendungs.avatar',
+                             DB::raw('COUNT(baituyendungs.ma_nha_tuyen_dung) as so_bai_tuyen_dung'))
+                            ->groupBy('nhatuyendungs.ten_cong_ty','nhatuyendungs.avatar')
+                            ->orderByDesc('so_bai_tuyen_dung')
+                            ->where('baituyendungs.trang_thai',1)
+                            ->take(3)
+                            ->get();
+        return response()->json([
+                'status' => true,
+                'data'   => $data
+            ]);
+
+    }
+    public function getLinhvuc()
+    {
+        $user = Auth::guard('sanctum')->user();
+        $data = Linhvuc::all();
         return response()->json([
                 'status' => true,
                 'data'   => $data

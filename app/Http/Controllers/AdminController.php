@@ -258,6 +258,19 @@ class AdminController extends Controller
                 'status'    => true,
                 'message'   => 'Đã từ chối bài tuyển dụng'
             ]);
-
+    }
+    public function dembaituyendung()
+    {
+        $user = Auth::guard('sanctum')->user();
+        $data = Baituyendung::join('nhatuyendungs','baituyendungs.ma_nha_tuyen_dung','nhatuyendungs.id')
+                            ->select('nhatuyendungs.ten_cong_ty','nhatuyendungs.avatar',
+                             DB::raw('COUNT(baituyendungs.ma_nha_tuyen_dung) as so_bai_tuyen_dung'))
+                            ->groupBy('nhatuyendungs.ten_cong_ty','nhatuyendungs.avatar')
+                            ->orderByDesc('so_bai_tuyen_dung')
+                            ->get();
+        return response()->json([
+                'status' => true,
+                'data'   => $data
+        ]);
     }
 }

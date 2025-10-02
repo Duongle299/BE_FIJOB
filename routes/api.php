@@ -34,6 +34,7 @@ Route::post('admin/update_bai_viet',[BaivietController::class,'updatebaiviet']);
 Route::post('admin/delete_bai_viet',[BaivietController::class,'deletebaiviet']);
 
 Route::get('admin/get-bai-tuyen-dung',[AdminController::class,'getTinTuyenDung'])->middleware('checkadmin');
+Route::get('admin/dem-tin-tuyen-dung',[AdminController::class,'dembaituyendung']);
 Route::post('admin/duyet-tin-tuyen-dung',[AdminController::class,'duyetTinTuyenDung'])->middleware('checkadmin');
 Route::post('admin/Reject-tin-tuyen-dung',[AdminController::class,'RejectTinTuyenDung'])->middleware('checkadmin');
 
@@ -49,6 +50,11 @@ Route::post('ung_vien/update_profile',[UngvienController::class,'upprofile'])->m
 Route::post('ung_vien/update_matkhau',[UngvienController::class,'uppassword'])->middleware('checkclient');
 
 Route::get('ung_vien/get_tin_tuyen_dung',[UngvienController::class,'getTinTuyenDung']);
+Route::get('ung_vien/get_linh_vuc',[UngvienController::class,'getLinhvuc']);
+Route::get('ung_vien/trang_chu/get_tin_tuyen_dung',[UngvienController::class,'gettrangchu']);
+Route::get('ung_vien/trang_chu/dem-tin-tuyen-dung',[UngvienController::class,'demtintuyendung']);
+
+
 
 
 // API nhà tuyển dụng
