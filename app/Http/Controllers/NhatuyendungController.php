@@ -65,23 +65,17 @@ class NhatuyendungController extends Controller
     }
     public function signup(Request $request)
     {
-            if( $request->id_nguoi_dung == 3){
-                Nhatuyendung::create([
+            Nhatuyendung::create([
                         'ten_cong_ty'  => $request->ten_cong_ty,
                         'email'         => $request->email,
                         'mat_khau'      => $request->mat_khau,
-                        'id_nguoi_dung'   => $request->id_nguoi_dung,
+                        'id_nguoi_dung'   => 3,
+                        'trang_thai'    => 1,
                     ]);
                     return response()->json([
                         'status' => true,
                         'message' => 'Đăng ký tài khoản nhà tuyển dụng thành công'
                     ]);
-            }else{
-                 return response()->json([
-                        'status' => false,
-                        'message' => 'Đăng ký tài khoản nhà tuyển dụng thất bại'
-                    ]);
-            }
     }
     public function profile()
     {

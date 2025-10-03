@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\BaivietController;
+use App\Http\Controllers\CVcontroller;
 use App\Http\Controllers\NhatuyendungController;
 use App\Http\Controllers\UngvienController;
 use Illuminate\Http\Request;
@@ -53,6 +54,11 @@ Route::get('ung_vien/get_tin_tuyen_dung',[UngvienController::class,'getTinTuyenD
 Route::get('ung_vien/get_linh_vuc',[UngvienController::class,'getLinhvuc']);
 Route::get('ung_vien/trang_chu/get_tin_tuyen_dung',[UngvienController::class,'gettrangchu']);
 Route::get('ung_vien/trang_chu/dem-tin-tuyen-dung',[UngvienController::class,'demtintuyendung']);
+
+Route::post('ung_vien/upload_cv',[CVcontroller::class,'UploadCV']);
+Route::post('ung_vien/ung-tuyen',[CVcontroller::class,'ungtuyen']);
+
+
 
 
 
