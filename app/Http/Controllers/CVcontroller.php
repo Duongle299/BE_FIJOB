@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Hosoungvien;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use PhpOffice\PhpWord\IOFactory;
 use Smalot\PdfParser\Parser;
@@ -216,79 +217,32 @@ class CVcontroller extends Controller
     }
     public function ungtuyen(Request $request)
     {
-        DB::beginTransaction();
-        try {
-            // 1. Validation (Sử dụng tên trường từ Frontend)
-            $validated = $request->validate([
-                'id_nhatuyendung' => 'required|integer|exists:nhatuyendungs,id',
-                'name' => 'required|string|max:255',
-                'email' => 'required|email|max:255|unique:hosoungviens,email',
-                'phone' => 'required|string|max:20',
-                'birthYear' => 'nullable|integer',
-                'gender' => 'nullable|string|max:10',
-                'maritalStatus' => 'nullable|string|max:50',
-                'address' => 'nullable|string|max:255',
-                'idCard' => 'nullable|string|max:20',
-                'education' => 'nullable|string|max:100',
-                'salary' => 'nullable|string|max:100', // Frontend gửi string (VND/tháng)
-                'position' => 'required|string|max:150',
-                'industry' => 'nullable|string|max:100',
-                'experience' => 'nullable|string',
-                // 'cv_file' => 'required|file|mimes:pdf,docx|max:10240',
-            ]);
-
-            // 2. Xử lý Upload File CV
-            // $cvPath = $request->file('cv_file')->store('public/cv_uploads');
-            $cvPath =null;
-            // LÀM SẠCH LƯƠNG: Chuyển '20,000,000 VND / tháng' sang số nguyên
-            $salaryValue = (int) filter_var($validated['salary'], FILTER_SANITIZE_NUMBER_INT) ?? 0;
-
-
-            // 3. Ánh xạ và Lưu dữ liệu (Map Request fields to Vietnamese DB columns)
-            $hoSo = Hosoungvien::create([
-                // Các trường từ Model $fillable
-                'id_nhatuyendung' => $validated['id_nhatuyendung'],
-                'ho_ten' => $validated['name'],
-                'email' => $validated['email'],
-                'so_dien_thoai' => $validated['phone'], // Giả sử tên cột là so_dien_thoai
-                'nam_sinh' => $validated['birthYear'] ?? null,
-                'gioi_tinh' => $validated['gender'] ?? null,
-                'dia_chi' => $validated['address'] ?? null,
-                'so_cmnd_cccd' => $validated['idCard'] ?? null,
-                'hon_nhan' => $validated['maritalStatus'] ?? null,
-                'trinh_do_hoc_van' => $validated['education'] ?? null,
+        $data = $request->all();
+        $salaryValue = (int) filter_var($data['salary'] ?? '0', FILTER_SANITIZE_NUMBER_INT) ?? 0;
+        $hoSo = Hosoungvien::create([
+                'id_ung_vien' => Auth::guard('sanctum')->user()->id,
+                'id_nhatuyendung' => $data['id_nhatuyendung'] ?? null, // Cẩn thận với NULL
+                'ho_ten' => $data['name'] ?? null,
+                'email' => $data['email'] ?? null,
+                'so_dien_thoai' => $data['phone'] ?? null,
+                'nam_sinh' => $data['birthYear'] ?? null,
+                'gioi_tinh' => $data['gender'] ?? null,
+                'hon_nhan' => $data['maritalStatus'] ?? null,
+                'dia_chi' => $data['address'] ?? null,
+                'so_cmnd_cccd' => $data['idCard'] ?? null,
+                'trinh_do_hoc_van' => $data['education'] ?? null,
                 'muc_luong_mong_muon' => $salaryValue,
-                'vi_tri_ung_tuyen' => $validated['position'],
-                'nganh_nghe' => $validated['industry'] ?? null,
-                'kinh_nghiem' => $validated['experience'] ?? null,
-                'cv_path' => $cvPath,
-                // Các trường khác (Giả định giá trị)
-                'cap_bac_mong_muon' => $validated['position'], // Giả sử vị trí = cấp bậc mong muốn
-                'trang_thai' => 0, // Mặc định: Chờ duyệt
-                'id_ung_vien' => null, // Không có tài khoản ứng viên (nếu có thì lấy ID user)
+                'vi_tri_ung_tuyen' => $data['position'] ?? null,
+                'nganh_nghe' => $data['industry'] ?? null,
+                'kinh_nghiem' => $data['experience'] ?? null,
+                // Mặc định cho các trường khác
+                'cv_path' => null,
+                'cap_bac_mong_muon' => $data['position'] ?? null,
+                'trang_thai' => 0,
             ]);
-
-            DB::commit();
-
-            // 4. Trả về thành công
             return response()->json([
-                'message' => 'Hồ sơ ứng viên đã được nộp thành công!',
-                'ho_so_id' => $hoSo->id,
-            ], 201);
-
-        } catch (\Exception $e) {
-            DB::rollBack();
-            // Xóa file nếu đã lưu trước khi lỗi xảy ra
-            if (isset($cvPath)) {
-                Storage::delete($cvPath);
-            }
-            Log::error('Lỗi khi nộp hồ sơ ứng viên: ' . $e->getMessage());
-
-            return response()->json([
-                'message' => 'Lỗi: Không thể nộp hồ sơ. Vui lòng thử lại. Vui lòng kiểm tra log server.',
-                'error_detail' => $e->getMessage()
-            ], 500);
-        }
-
+                'status' => 1,
+                'message' => 'Đã nộp hồ sơ ứng tuyển thành công!'
+            ]);
     }
 }

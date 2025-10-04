@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Baituyendung;
+use App\Models\Hosoungvien;
 use App\Models\Nhatuyendung;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -217,7 +218,43 @@ class NhatuyendungController extends Controller
                     'message' => 'Xóa bài viết thành công',
             ]);
         }
-
-
+    }
+    public function getdataungvien(){
+        $user_login = Auth::guard('sanctum')->user();
+        $data = Hosoungvien::join('baituyendungs','hosoungviens.id_nhatuyendung','baituyendungs.id')
+        ->join('nhatuyendungs','baituyendungs.ma_nha_tuyen_dung','nhatuyendungs.id')
+        ->join('ungviens','hosoungviens.id_ung_vien','ungviens.id')
+        ->where('ma_nha_tuyen_dung', $user_login->id)
+        ->where('hosoungviens.trang_thai', 0)
+        ->select('hosoungviens.*','baituyendungs.tieu_de','ungviens.avatar','nhatuyendungs.ten_cong_ty')
+        ->get();
+        return response()->json([
+            'data' => $data
+        ]);
+    }
+    public function rejecthoso(Request $request)
+    {
+        $user_login = Auth::guard('sanctum')->user();
+        if(!$user_login || !$user_login->id){
+            return response()->json([
+                'status'    => false,
+                'message'   => 'cần đăng nhập để duyệt bài tuyển dụng'
+            ]);
+        }
+        $data = Hosoungvien::find($request->id);
+        if(!$data){
+                return response()->json([
+                'status'    => false,
+                'message'   => 'không tìm thấy bài tuyển dụng'
+            ]);
+        }
+        if($data->trang_thai == 0){
+            $data->trang_thai = 1;
+        }
+        $data->save();
+        return response()->json([
+                'status'    => true,
+                'message'   => 'Đã từ chối hồ sơ'
+            ]);
     }
 }

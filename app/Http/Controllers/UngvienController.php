@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\LoginRequest;
 use App\Models\Baituyendung;
+use App\Models\Hosoungvien;
 use App\Models\Linhvuc;
 use App\Models\Nguoidung;
 use App\Models\Nhatuyendung;
@@ -198,6 +199,33 @@ class UngvienController extends Controller
                 'data'   => $data
             ]);
 
+    }
+    public function UploadCV(){
+        $user_login = Auth::guard('sanctum')->user();
+        $data = Hosoungvien::join('baituyendungs','hosoungviens.id_nhatuyendung','baituyendungs.id')
+        ->join('nhatuyendungs','baituyendungs.ma_nha_tuyen_dung','nhatuyendungs.id')
+        ->join('ungviens','hosoungviens.id_ung_vien','ungviens.id')
+        ->where('id_ung_vien', $user_login->id)
+        ->select('hosoungviens.*','baituyendungs.tieu_de','ungviens.avatar','nhatuyendungs.ten_cong_ty')
+        ->get();
+        return response()->json([
+            'data' => $data
+        ]);
+    }
+    public function deletehoso(Request $request){
+        $user_login = Auth::guard('sanctum')->user();
+         if (!$user_login) {
+            return response()->json([
+                'status'    => 0,
+                'message'   => 'Bạn cần đăng nhập hệ thống!'
+            ]);
+        }else{
+            Hosoungvien::where('id',$request->id)->delete();
+                return response()->json([
+                    'status' => true,
+                    'message' => 'Xóa hồ sơ thành công',
+            ]);
+        }
     }
 
 

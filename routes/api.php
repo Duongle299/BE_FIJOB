@@ -57,6 +57,8 @@ Route::get('ung_vien/trang_chu/dem-tin-tuyen-dung',[UngvienController::class,'de
 
 Route::post('ung_vien/upload_cv',[CVcontroller::class,'UploadCV']);
 Route::post('ung_vien/ung-tuyen',[CVcontroller::class,'ungtuyen']);
+Route::get('ung_vien/get-data-cv',[UngvienController::class,'UploadCV'])->middleware('checkclient');
+Route::post('ung_vien/delete-ho-so',[UngvienController::class,'deletehoso'])->middleware('checkclient');
 
 
 
@@ -78,6 +80,10 @@ Route::get('nha_tuyen_dung/get-bai-tuyen-dung',[NhatuyendungController::class,'g
 Route::post('nha_tuyen_dung/create-bai-tuyen-dung',[NhatuyendungController::class,'createbaituyendung'])->middleware('checkemployer');
 Route::post('nha_tuyen_dung/update-bai-tuyen-dung',[NhatuyendungController::class,'updatebaituyendung'])->middleware('checkemployer');
 Route::post('nha_tuyen_dung/delete-bai-tuyen-dung',[NhatuyendungController::class,'deletebaituyendung'])->middleware('checkemployer');
+
+Route::get('nha_tuyen_dung/get-data-ung-vien',[NhatuyendungController::class,'getdataungvien'])->middleware('checkemployer');
+Route::post('nha_tuyen_dung/reject-ho-so',[NhatuyendungController::class,'rejecthoso'])->middleware('checkemployer');
+
 
 
 
